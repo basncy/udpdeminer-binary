@@ -1,0 +1,15 @@
+[Unit]
+Description=Udpdeminer Group
+After=network.target
+
+[Service]
+Type=simple
+ExecStart=/bin/bash -c '/path/to/%I.sh'
+ExecReload=/bin/kill -s HUP $MAINPID
+Restart=always
+RestartSec=3
+LimitNPROC=512
+LimitNOFILE=infinity
+
+[Install]
+WantedBy=multi-user.target
