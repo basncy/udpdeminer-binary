@@ -12,7 +12,7 @@ Options:
   -s, --server <SERVER>      Target Domain or IP
   -p, --port <PORT>          Target Port number. Can be range: 12300-12340
   -i, --idlehop <IDLEHOP>    Seconds to hop when no data recieved. Smaller than keep-alive for VPN client [default: 23]
-  -f, --forcehop <FORCEHOP>  Force to hop [default: 600]
+      --loglevel <LOGLEVEL>  Log level  0:no 1:error 2:warn 3:info 4:debug [default: 2]
   -h, --help                 Print help
   -V, --version              Print version
 
