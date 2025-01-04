@@ -1,15 +1,16 @@
 # udpdeminer-binary
 
 ### Feature:
-1. UDP Port forward with idle and force source port change.
-2. M to N port range forward.
-3. Chain forward.
-4. Apply to most UDP applications, including VPN, with NO server-side installation.
+1. UDP forward on dynamic hop selection.
+2. Load balance support.
+3. M to N port range forward.
+4. Chain forward.
+5. Apply to most UDP applications, including VPN, with NO server-side installation.
 
 ### Network Topology
-  Bridge Mode: UDP client >> udpdeminer >> UDP server
+  Bridge: UDP client >> udpdeminer >> UDP server
   
-  Chain Mode: UDP client >> udpdeminer >> udpdeminer >> ... >> udpdeminer>> UDP server
+  Mesh: UDP client >> udpdeminer >> udpdeminer >> ... >> udpdeminer>> UDP server
 
 ### Quick Start:
 ```
