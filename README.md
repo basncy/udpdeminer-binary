@@ -12,7 +12,11 @@ Maximize UDP application network IO performance.
 ### Network Topology Example
   Bridge:
   ```
-UDP client >> udpdeminer ---->> Internet --->> UDP server
+UDP client >> udpdeminer -->> Internet -->> UDP server
+```
+  Wrapper hook:
+  ```
+UDP client >> udpdeminer >> wrapper client -->> Internet -->> wrapper server >> UDP server
 ```
   
   Mesh:
@@ -24,21 +28,26 @@ UDP client >> udpdeminer ---->> Internet --->> UDP server
 
 ### Quick Start:
 ```
-  -b, --bind <BIND>          Bind listen IP [default: [::]]
-  -l, --listen <LISTEN>      Listen port. Can be range:12740-12741 [default: 12740-12741]
-  -s, --server <SERVER>      Target Domain or IP. multiple separate by a comma. e.g. localhost,::1,127.0.0.1
-  -p, --port <PORT>          Target Port number. Can be range: 12740-12741
-  -i, --idlehop <IDLEHOP>    Seconds to hop when no data received [default: 28]
-  -f, --forcehop <FORCEHOP>  Force hop time [default: 1200]
-      --loglevel <LOGLEVEL>  Log level  0:no 1:error 2:warn 3:info 4:debug [default: 2]
-  -h, --help                 Print help
-  -V, --version              Print version
+  -b, --bind <BIND>            Bind listen IP [default: [::]]
+  -l, --listen <LISTEN>        Listen port. Can be range:12740-12741 [default: 12740-12741]
+  -s, --server <SERVER>        Target Domain or IP. multiple separate by comma. e.g. localhost,::1,127.0.0.1
+  -p, --port <PORT>            Target Port number. Can be range: 12740-12741
+  -i, --idlehop <IDLEHOP>      Seconds to hop when no data recieved [default: 28]
+  -f, --forcehop <FORCEHOP>    Force hop time [default: 1200]
+      --hookpath <HOOKPATH>    Path to external tools to handle hop events. Experimental, linux only [default: ]
+      --hookip <HOOKIP>        IP that ask hook tools to listen. Experimental, linux only. Usually 127.0.0.1 for wrapper tool [default: ]
+      --hookports <HOOKPORTS>  Port that ask hook tools to listen. Experimental, linux only [default: 12850-12899]
+      --loglevel <LOGLEVEL>    Log level  0:no 1:error 2:warn 3:info 4:debug [default: 2]
+  -h, --help                   Print help
+  -V, --version                Print version
 
 ```
 
 #### Tips:
-  Passive hop， set keep-alive > idlehop in legacy UDP application, like OpenVPN.
+  Passive hop， set keep-alive > idlehop in legacy UDP application, like Wireguard.
   
-  Active hop， set app-hop-time < idlehop in hysteria2.
+  Active hop， set app-hop-time < idlehop, like hysteria2.
   
   Force hop, avoid long-time connections being QoS.
+
+  Hook, start/stop external tools on event startpre/stoppost.
