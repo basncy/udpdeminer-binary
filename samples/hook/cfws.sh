@@ -1,5 +1,6 @@
 #!/bin/bash
-#Caller: udpdeminer -s www.visa.com,www.pcmag.com -p 8080 --hookpath /path/to/me/$0 --hookip 127.0.0.1
+##### Deprecated, violate ToS: udpdeminer -s www.visa.com,www.pcmag.com -p 8080 --hookpath /path/to/me/$0 --hookip 127.0.0.1
+#Caller: udpdeminer -s myws.doamin.com -p 8080 --hookpath /path/to/me/$0 --hookip 127.0.0.1
 #Server: ./wstunnel server --restrict-to localhost:51820 'ws://[::]:8080'
 EVENT=$1
 STREAMID=$2
