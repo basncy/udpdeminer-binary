@@ -8,14 +8,14 @@ srvstr = fn(Random select next hop target from args.server:args.port)
 //call hook tools
 if ! hookpath.is_empty() {
     if hookip.is_empty() {
-        /* exec hookpath startpre STREAMID SRVSTR */
+        /* exec hookpath startpre STREAMID SRVSTR FROMSTR*/
         Command::new(hookpath).args(args).spawn().unwrap().wait().unwrap();
     } else {
-        relaystr=fn(Random select listen target from args.hookip:args.hookports)
-        /* exec hookpath startpre STREAMID SRVSTR RELAYSTR */
+        hookport=fn(Random select listen target from args.hookip:args.hookports)
+        /* exec hookpath startpre STREAMID SRVSTR HOOKIP:HOOKPORT */
         Command::new(hookpath).args(args).spawn().unwrap().wait().unwrap();
         /* replace SRVSTR with RELAYSTR */
-        srvstr = relaystr
+        srvstr = hookip:hookport
     }
 }
 

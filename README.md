@@ -30,13 +30,12 @@ UDP client >> udpdeminer -->> Internet -->> UDP server
   -p, --port <PORT>            Next hop Port number. Can be range: 12740-12741
   -i, --idlehop <IDLEHOP>      Seconds to hop when no data recieved [default: 28]
   -f, --forcehop <FORCEHOP>    Force hop time [default: 1200]
-      --hookpath <HOOKPATH>    Path to external tools to handle hop events. Experimente [default: ]
-      --hookip <HOOKIP>        IP that ask hook tools to listen. Experimente. Usually 127.0.0.1 for wrapper tool [default: ]
-      --hookports <HOOKPORTS>  Port that ask hook tools to listen. Experimente [default: 12850-12899]
+      --hookpath <HOOKPATH>    Path to external tools. To dynamically create wrapper servers, or handle hop events [default: ]
+      --hookip <HOOKIP>        Redirect next hop to this IP, also pass to hookpath as parameter. Leave empty to disable redirect [default: ]
+      --hookports <HOOKPORTS>  Redirect next hop port to the one in this range, also pass to hookpath as parameter [default: 12850-12899]
       --loglevel <LOGLEVEL>    Log level  0:no 1:error 2:warn 3:info 4:debug [default: 2]
   -h, --help                   Print help
   -V, --version                Print version
-
 ```
 
 #### Tips:
