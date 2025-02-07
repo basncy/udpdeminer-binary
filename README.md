@@ -21,7 +21,14 @@ UDP client >> udpdeminer -->> Internet -->> UDP server
                               > wrapper c2 --> ISP --> wrapper s2 >>
 ```
 
-### Quick Start:
+### Quick Start Sample:
+```
+Client：
+wireguard wg0.conf: Endpoint=[::1]:12740
+./udpdeminer -s wgip -p 51820
+Server(optional, replace DNAT):
+./udpdeminer -l 51821-51830 -s ::1 -p 51820
+```
 ```
   -l, --listen <LISTEN>        Listen port. Can be range:12740-12741 [default: 12740-12741]
   -b, --bind <BIND>            Inbound listen IP [default: ::]
@@ -37,6 +44,8 @@ UDP client >> udpdeminer -->> Internet -->> UDP server
   -h, --help                   Print help
   -V, --version                Print version
 ```
+#### Compatibility:
+Wireguard, OpenVPN, juicity, hysteria, tinyfecVPN, Cloudflare WARP.
 
 #### Tips:
   Passive hop， set keep-alive > idlehop in legacy UDP application, like Wireguard.
