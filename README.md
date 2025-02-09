@@ -36,7 +36,7 @@ Server(optional, replace DNAT):
   -s, --server <SERVER>        Next hop Domain or IP. multiple separate by comma. e.g. localhost,::1,127.0.0.1
   -p, --port <PORT>            Next hop Port number. Can be range: 12740-12741
   -i, --idlehop <IDLEHOP>      Seconds to hop when no data recieved [default: 28]
-  -f, --forcehop <FORCEHOP>    Force hop time [default: 1200]
+  -f, --forcehop <FORCEHOP>    Senconds to force hop. Can be range for randomization [default: 50-1200]
       --hookpath <HOOKPATH>    Path to external tools. To dynamically create wrapper servers, or handle hop events [default: ]
       --hookip <HOOKIP>        Redirect next hop to this IP, also pass to hookpath as parameter. Leave empty to disable redirect [default: ]
       --hookports <HOOKPORTS>  Redirect next hop port to the one in this range, also pass to hookpath as parameter [default: 12850-12899]
