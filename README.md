@@ -34,6 +34,7 @@ Server(optional, replace DNAT):
   -b, --bind <BIND>            Inbound listen IP [default: ::]
       --outbound <OUTBOUND>    Outbound IP. Can be ifname-index for dynamic IP. e.g. eth0-1 [default: ::]
   -s, --server <SERVER>        Next hop Domain or IP. multiple separate by comma. e.g. localhost,::1,127.0.0.1
+      --maxoffset <MAXOFFSET>  Append hourly changing random offset to selected server. IPv6 only. [default: 0]
   -p, --port <PORT>            Next hop Port number. Can be range: 12740-12741
   -i, --idlehop <IDLEHOP>      Seconds to hop when no data recieved [default: 28]
   -f, --forcehop <FORCEHOP>    Senconds to force hop. Can be range for randomization [default: 50-1200]
