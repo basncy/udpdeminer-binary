@@ -20,7 +20,12 @@ UDP client >> udpdeminer -->> Internet -->> UDP server
    VPN client --> udpdeminer >> raw UDP package ( TDD path hop )  >> (DNAT, or None) -> VPN server
                               > wrapper c2 --> ISP --> wrapper s2 >>
 ```
-
+  Expert:
+  ```
+                              <<<< DOWN, raw udp      <<<< UDP server  <----> example.com
+   UDP client --> udpdeminer                                ^^^^
+                              >>>> UP, via tunnel/CDN >>>> relay
+```
 ### Quick Start Sample:
 ```
 Client：
