@@ -13,19 +13,23 @@ A TDD(Time Division Delivery) software that continuously delivery UDP package to
   Bridge:
   ```
 UDP client >> udpdeminer -->> Internet -->> UDP server
-```
+  ```
   Wrapper hook:
   ```
                               > wrapper c1 --> ISP --> wrapper s1 >>
    VPN client --> udpdeminer >> raw UDP package ( TDD path hop )  >> (DNAT, or None) -> VPN server
                               > wrapper c2 --> ISP --> wrapper s2 >>
-```
+  ```
+  NAT Traversal:
+  ```
+   UDP client --> udpdeminer(NAT IP) >>> NAT hole punching >>> UDP Relay(NAT IP) ----> UDP server
+  ```
   Expert:
   ```
                               <<<< DOWN, raw udp      <<<< UDP server  <----> example.com
    UDP client --> udpdeminer                                ^^^^
                               >>>> UP, via tunnel/CDN >>>> relay
-```
+  ```
 ### Quick Start Sample:
 ```
 Client：
@@ -39,12 +43,12 @@ Server(optional, replace DNAT):
   -b, --bind <BIND>            Inbound listen IP [default: ::]
       --outbound <OUTBOUND>    Outbound IP. Can be ifname-index for dynamic IP. e.g. eth0-1 [default: ::]
   -s, --server <SERVER>        Next hop Domain or IP. multiple separate by comma. e.g. localhost,::1,127.0.0.1
-      --maxoffset <MAXOFFSET>  Append hourly changing random offset to selected server. IPv6 only. [default: 0]
+      --maxoffset <MAXOFFSET>  Append hourly changing random offset to selected server. IPv6 only [default: 0]
   -p, --port <PORT>            Next hop Port number. Can be range: 12740-12741
   -i, --idlehop <IDLEHOP>      Seconds to hop when no data recieved [default: 28]
-  -f, --forcehop <FORCEHOP>    Senconds to force hop. Can be range for randomization [default: 50-1200]
+  -f, --forcehop <FORCEHOP>    Seconds to force hop. Can be range for randomization [default: 600-2400]
       --hookpath <HOOKPATH>    Path to external tools. To dynamically create wrapper servers, or handle hop events [default: ]
-      --hookip <HOOKIP>        Redirect next hop to this IP, also pass to hookpath as parameter. Leave empty to disable redirect [default: ]
+      --hookip <HOOKIP>        Redirect next hop to this IP, also pass to hookpath as parameter. Can be "customize" [default: ]
       --hookports <HOOKPORTS>  Redirect next hop port to the one in this range, also pass to hookpath as parameter [default: 12850-12899]
       --loglevel <LOGLEVEL>    Log level  0:no 1:error 2:warn 3:info 4:debug [default: 2]
   -h, --help                   Print help
@@ -54,10 +58,10 @@ Server(optional, replace DNAT):
 Wireguard, OpenVPN, juicity, hysteria, tinyfecVPN, Cloudflare WARP.
 
 #### Tips:
-  Passive hop， set keep-alive > idlehop in legacy UDP application, like Wireguard.
-  
-  Active hop， set app-hop-time < idlehop, like hysteria2.
-  
+  Idlehop, avoid endless reconnection retry on UDP client.
+
   Force hop, avoid long-time connections being QoS.
 
   Hook, wrap you UDP package on hop path.
+
+  Hookip, customize your next hop.
