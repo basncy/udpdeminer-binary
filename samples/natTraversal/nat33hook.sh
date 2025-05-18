@@ -9,7 +9,7 @@ N4HOST=11.22.33.44
 case $EVENT in
 	getsrvstr)
 		LPORT=$(echo $LSTR | awk -F':' '{print $NF}')
-		MYSTR=$(python3 ./n4.py -c -h $N4HOST -p 12710 -b ${LPORT})
+		MYSTR=$(python3 ./n4.py -c -x -h $N4HOST -p 12710 -b ${LPORT})
 		echo -n $MYSTR
 		;;
 	stoppost)
