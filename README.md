@@ -20,9 +20,9 @@ UDP client >> udpdeminer -->> Internet -->> UDP server
    VPN client --> udpdeminer >> raw UDP package ( TDD path hop )  >> (DNAT, or None) -> VPN server
                               > wrapper c2 --> ISP --> wrapper s2 >>
   ```
-  NAT Traversal:
+  NAT Traversal, with [Link2Lan](https://github.com/basncy/link2lan) hook:
   ```
-   UDP client --> udpdeminer(NAT IP) >>> NAT hole punching >>> UDP Relay(NAT IP) ----> UDP server
+   UDP client --> udpdeminer(NAT/Public IP) >><< NAT/Reverse punching >><< UDP Relay ----> UDP server
   ```
   Expert:
   ```
