@@ -382,7 +382,7 @@ def cli_main():
             )
             logging.info("==================")
             logging.info("Source port: %d-%d" % (port, port+count))
-            peer, src_port = n4c.punch(wait=2)
+            peer, src_port = n4c.punch(wait=3)
             peer_ip, peer_port = peer
             logging.info("------")
             logging.info("Local port:    %d" % src_port)
@@ -396,7 +396,8 @@ def cli_main():
         except N4Error.PunchFailure:
             logging.info("[ LOSE ]")
             port += count
-            continue
+            break
+            #continue
 
 
 def main() -> None:

@@ -38,7 +38,8 @@ logging.info("> nc -u -p %d %s %d" % (src_port, peer_ip, peer_port))
 print("{}:{}-{}".format(peer_ip, peer_port, src_port))
 break
   ```
-3. Change wait=10 into wait=2 [this line](https://github.com/MikeWang000000/n4/blob/f25eb71e9425c7a115afc7174cfa64ddf4767048/n4.py#L385)
+4. Change continue into break [here](https://github.com/MikeWang000000/n4/blob/f25eb71e9425c7a115afc7174cfa64ddf4767048/n4.py#L398), near the line of [LOSE], we try only once.
+5. Change wait=10 into wait=3 [this line](https://github.com/MikeWang000000/n4/blob/f25eb71e9425c7a115afc7174cfa64ddf4767048/n4.py#L385)
 
 
 ### Tips:

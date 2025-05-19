@@ -22,8 +22,7 @@ fi
 
 CURNFWD=0
 while true; do
-	#-n 2 -o 1 we are NOT NAT4 to NAT4, reduce the resource comsuming.
-        MYSTR=$(python3 n4.py -c -x -h $N4HOST -p $N4PORT -b $((RANDOM + RANDOM + 1025)) -n 2 -o 1)
+        MYSTR=$(python3 n4.py -c -x -h $N4HOST -p $N4PORT -b $((RANDOM + RANDOM + 1025)))
         LPORT=$(echo $MYSTR|cut -d'-' -f2)
         ./udpdeminer -b 0.0.0.0 -l $LPORT --server $DESTIP --port $DESTPORT --idlehop 90 --forcehop 2400-3600 --outbound 0.0.0.0 &
 	#socat "udp-listen:$LPORT" 'udp6:[2603:c020:4:1200::a00:232]:10000' & FWDPID=$!
