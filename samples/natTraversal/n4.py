@@ -382,7 +382,7 @@ def cli_main():
             )
             logging.info("==================")
             logging.info("Source port: %d-%d" % (port, port+count))
-            peer, src_port = n4c.punch(wait=10)
+            peer, src_port = n4c.punch(wait=2)
             peer_ip, peer_port = peer
             logging.info("------")
             logging.info("Local port:    %d" % src_port)
