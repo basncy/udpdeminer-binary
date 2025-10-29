@@ -24,7 +24,7 @@ UDP client >> udpdeminer -->> Internet -->> UDP server
   ```
    UDP client --> udpdeminer(NAT/Public IP) >><< NAT/Reverse punching >><< UDP Relay ----> UDP server
   ```
-  Expert:
+  Expert: Remove downlink relay-in-the-middle
   ```
                               <<<< DOWN, raw udp      <<<< UDP server  <----> example.com
    UDP client --> udpdeminer                                ^^^^
