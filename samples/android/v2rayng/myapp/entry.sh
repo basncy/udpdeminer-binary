@@ -9,7 +9,7 @@ function patch_config() {
 	##Do patching
 
 	#Start udpdeminer
-	if grep -q "ipv6" <<< "$1";then
+	if grep -q "ipv6" "$1";then
 		source ./etc/ipv6.env
 		./bin/udpdeminer-aarch64-linux-android -l 12740 -s 2001::1 -p 443 --hookpath ./bin/ipv6hook.sh &
 	else
@@ -18,7 +18,6 @@ function patch_config() {
 	fi
 }
 
-cat $3 | grep "127.0.0.1:1274" && start_myapp
 patch_config $3
 
 killall hysteria-android-arm64

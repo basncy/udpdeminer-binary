@@ -7,15 +7,15 @@ cd "/data/data/$PKGNAME/files"
 
 function flush_myapp() {
 	#deploy from assert. password filed as file name to upgrade myapp.tar.gz
-	MYAPPFILE=$(cat $1|tr ',' '\n'|grep auth|cut -d'"' -f4)
+	MYAPPFILE=$(cat "$1" | tr ',' '\n' |grep auth|cut -d'"' -f4)
 	if [ -e "/storage/emulated/0/Android/data/$PKGNAME/files/assets/$MYAPPFILE" ]; then
 		rm -rf myapp
-		/system/bin/tar -xzf /storage/emulated/0/Android/data/$PKGNAME/files/assets/$MYAPPFILE
+		/system/bin/tar -xf /storage/emulated/0/Android/data/$PKGNAME/files/assets/$MYAPPFILE
 	fi
 }
 
-#do flush, server is 127.0.0.1:12700
-cat $3 | grep "127.0.0.1:12700" && flush_myapp $3
-#hysteria2://myapp.tar.gz@127.0.0.1:12700?security=tls&insecure=1&sni=www.mydomain.com#flush_myapp
+#do flush when server is 127.0.0.1:12700
+grep -q "127.0.0.1:12700" "$3" && flush_myapp "$3"
+#hysteria2://myapp.tar@127.0.0.1:12700?security=tls&insecure=1&sni=www.mydomain.com#flush_myapp
 chmod +x ./myapp/entry.sh
 ./myapp/entry.sh $@
