@@ -1,0 +1,32 @@
+#!/system/bin/sh
+
+ORIGINAL_ARGS="$@"
+MY_PACKAGE="com.v2ray.ang.fdroid"
+export APPDATA_PATH="${EXTERNAL_STORAGE}/Android/data/${MY_PACKAGE}/files"
+HYLOG="${APPDATA_PATH}/libhysteria2.log"
+date > "${HYLOG}"
+
+cd $(dirname "$0")
+pwd >> "${HYLOG}"
+
+function cleanup() {
+        trap '' SIGTERM
+        echo "kill -TERM 0" >> "${HYLOG}"
+        kill -TERM 0
+        wait
+}
+trap cleanup EXIT SIGINT SIGTERM
+
+function patch_config(){
+	echo "Do whatever to cunstomize configuration."
+	export GLOBALVAR_A="value_a"
+	export GLOBALVAR_B="value_b"
+}
+
+patch_config $3
+
+sh ./libentry.so $ORIGINAL_ARGS 2>>"${HYLOG}" &
+ENTRY_PID=$!
+
+echo "wait $ENTRY_PID" >> "${HYLOG}"
+wait $ENTRY_PID

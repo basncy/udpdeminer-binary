@@ -1,0 +1,27 @@
+#!/system/bin/sh
+
+ORIGINAL_ARGS="$@"
+
+#[ -z "$APPDATA_PATH" ] && APPDATA_PATH="/tmp"
+
+#uncomment to enable debug log
+#set -x
+#exec > "${APPDATA_PATH}/entry.log" 2>&1
+#date
+
+##### Global VAR Needed ######
+## GLOBALVAR_A
+## GLOBALVAR_B
+#######################
+
+cd $(dirname "$0")
+
+if grep -q "ipv6" "$3";then
+	#NEED per-app proxy to get WANDEV
+	./libudpdeminer.so -l 12740 -s ::1 -p 12760 --hookpath ./libipv6hook.so &
+else
+	./libudpdeminer.so -l 12740 -s 127.0.0.1 -p 12760 --outbound 0.0.0.0 --hookpath ./libipv4hook.so &
+
+fi
+./libhysteria2bin.so $ORIGINAL_ARGS &
+wait
