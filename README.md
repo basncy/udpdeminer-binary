@@ -24,7 +24,7 @@ UDP client >> udpdeminer -->> Internet -->> UDP server
   ```
    UDP client --> udpdeminer(NAT/Public IP) >><< NAT/Reverse punching >><< UDP Relay ----> UDP server
   ```
-  Expert: Remove downlink relay-in-the-middle
+  Expert: Remove down-stream relay-in-the-middle. Additional complex setup required.
   ```
                               <<<< DOWN, raw udp      <<<< UDP server  <----> example.com
    UDP client --> udpdeminer                                ^^^^
@@ -38,6 +38,29 @@ wireguard wg0.conf: Endpoint=[::1]:12740
 Server(optional, replace DNAT):
 ./udpdeminer -l 51821-51830 -s ::1 -p 51820
 ```
+### More Start Options:
+#### Windows bat
+```
+chcp 65001
+::WIN CR LF UTF-8
+cd /d "%~dp0"
+
+for /f "usebackq eol=# tokens=1,* delims==" %%A in ("env.ini") do (
+    set "%%A=%%B"
+)
+
+taskkill /F /IM udpdeminer-x86_64-pc-windows-gnu.exe
+start /min udpdeminer-x86_64-pc-windows-gnu.exe -b 0.0.0.0 -l 12740 -s %SRVIP% -p %SRVPORT% --outbound 0.0.0.0 -i 15 --hookpath "winhook.bat"
+```
+#### Linux supervisor
+```
+[program:udpdeminer]
+environment=MYKEYA="myvalue_a",
+        MYKEYB="myvalue_b"
+command=/path/to/udpdeminer-x86_64-unknown-linux-musl -l 12740 -s 2001:db8::1000 --maxoffset 10000 -p 1234 --outbound :: -i 15 --hookpath /path/to/hook6.sh
+autostart=true
+autorestart=true
+```
 ```
   -l, --listen <LISTEN>        Listen port. Can be range:12740-12741 [default: 12740-12741]
   -b, --bind <BIND>            Inbound listen IP [default: ::]
@@ -48,20 +71,22 @@ Server(optional, replace DNAT):
   -i, --idlehop <IDLEHOP>      Seconds to hop when no data recieved [default: 28]
   -f, --forcehop <FORCEHOP>    Seconds to force hop. Can be range for randomization [default: 600-2400]
       --hookpath <HOOKPATH>    Path to external tools. To dynamically create wrapper servers, or handle hop events [default: ]
-      --hookip <HOOKIP>        Redirect next hop to this IP, also pass to hookpath as parameter. Can be "customize" [default: ]
-      --hookports <HOOKPORTS>  Redirect next hop port to the one in this range, also pass to hookpath as parameter [default: 12850-12899]
+      --hookip <HOOKIP>        Redirect next hop to this IP, rewrite parameter $3 to hookip:port. Use it when hookscript creates a udp relay server [default: ]
+      --hookports <HOOKPORTS>  Redirect next hop port to the one in this range, rewrite parameter $3 to hookip:port [default: 12850-12899]
+      --dummystr <DUMMYSTR>    DIY a random endpoint stored in env UD_DUMMYENDPOINT every hop. can be used in hook scripts [default: ]
       --loglevel <LOGLEVEL>    Log level  0:no 1:error 2:warn 3:info 4:debug [default: 2]
-  -h, --help                   Print help
-  -V, --version                Print version
+  -h, --help                   Print help (see more with '--help')
 ```
 #### Compatibility:
 Wireguard, OpenVPN, juicity, hysteria, tinyfecVPN, Cloudflare WARP.
 
 #### Tips:
-  Idlehop, avoid endless reconnection retry on UDP client.
+  Idlehop, avoid UDP stream cutting out.
 
   Force hop, avoid long-time connections being QoS.
 
-  Hook, wrap you UDP package on hop path.
+  Hook, wrap the raw UDP package.
 
   Hookip, customize your next hop.
+
+  dummystr, print env in script to get UD_DUMMYENDPOINT instance value.
