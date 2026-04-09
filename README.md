@@ -24,7 +24,7 @@ UDP client >> udpdeminer -->> Internet -->> UDP server
   ```
    UDP client --> udpdeminer(NAT/Public IP) >><< NAT/Reverse punching >><< UDP Relay ----> UDP server
   ```
-  Expert: Remove down-stream relay-in-the-middle. Additional complex setup required.
+  Expert: Remove down-stream relay-in-the-middle. complex setup with --hookpath, --dummystr, link2lan
   ```
                               <<<< DOWN, raw udp      <<<< UDP server  <----> example.com
    UDP client --> udpdeminer                                ^^^^
@@ -71,11 +71,10 @@ autorestart=true
   -i, --idlehop <IDLEHOP>      Seconds to hop when no data recieved [default: 28]
   -f, --forcehop <FORCEHOP>    Seconds to force hop. Can be range for randomization [default: 600-2400]
       --hookpath <HOOKPATH>    Path to external tools. To dynamically create wrapper servers, or handle hop events [default: ]
-      --hookip <HOOKIP>        Redirect next hop to this IP, rewrite parameter $3 to hookip:port. Use it when hookscript creates a udp relay server [default: ]
+      --hookip <HOOKIP>        Redirect next hop to this IP, rewrite parameter $3 to hookip:port. (see more with '--help') [default: ]
       --hookports <HOOKPORTS>  Redirect next hop port to the one in this range, rewrite parameter $3 to hookip:port [default: 12850-12899]
       --dummystr <DUMMYSTR>    DIY a random endpoint stored in env UD_DUMMYENDPOINT every hop. can be used in hook scripts [default: ]
       --loglevel <LOGLEVEL>    Log level  0:no 1:error 2:warn 3:info 4:debug [default: 2]
-  -h, --help                   Print help (see more with '--help')
 ```
 #### Compatibility:
 Wireguard, OpenVPN, juicity, hysteria, tinyfecVPN, Cloudflare WARP.
