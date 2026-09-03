@@ -30,8 +30,19 @@ UDP client >> udpdeminer -->> Internet -->> UDP server
    UDP client --> udpdeminer                                ^^^^
                               >>>> UP, via tunnel/CDN >>>> relay
   ```
+  Continues DNS updating (NOT onetime resolve on startup), version 1.5.2+:
+```
+./udpdeminer -l 12740 -s myip.iloveyou.null -p 51820 --dnsresolver 104.3.2.1:5353 --dnsinterval 300
+On 104.3.2.1, dnsmasq --port=5353 --host-record=myip.iloveyou.null,2001:db8::123
+```
+  hookpath heartbeat event, e.g. ddns update. version 1.5.2+:
+```
+./udpdeminer -s 1.2.3.4 -p 5678 --hookpath echo --hookheartbeat 2 --loglevel 4
+```
 ### Quick Start Sample:
 ```
+./udpdeminer --help
+
 Client：
 wireguard wg0.conf: Endpoint=[::1]:12740
 ./udpdeminer -s wgip -p 51820
@@ -60,21 +71,6 @@ environment=MYKEYA="myvalue_a",
 command=/path/to/udpdeminer-x86_64-unknown-linux-musl -l 12740 -s 2001:db8::1000 --maxoffset 10000 -p 1234 --outbound :: -i 15 --hookpath /path/to/hook6.sh
 autostart=true
 autorestart=true
-```
-```
-  -l, --listen <LISTEN>        Listen port. Can be range:12740-12741 [default: 12740-12741]
-  -b, --bind <BIND>            Inbound listen IP [default: ::]
-      --outbound <OUTBOUND>    Outbound IP. Can be ifname-index for dynamic IP. e.g. eth0-1 [default: ::]
-  -s, --server <SERVER>        Next hop Domain or IP. multiple separate by comma. e.g. localhost,::1,127.0.0.1
-      --maxoffset <MAXOFFSET>  Append hourly changing random offset to selected server. IPv6 only [default: 0]
-  -p, --port <PORT>            Next hop Port number. Can be range: 12740-12741
-  -i, --idlehop <IDLEHOP>      Seconds to hop when no data recieved [default: 28]
-  -f, --forcehop <FORCEHOP>    Seconds to force hop. Can be range for randomization [default: 600-2400]
-      --hookpath <HOOKPATH>    Path to external tools. To dynamically create wrapper servers, or handle hop events [default: ]
-      --hookip <HOOKIP>        Redirect next hop to this IP, rewrite parameter $3 to hookip:port. (see more with '--help') [default: ]
-      --hookports <HOOKPORTS>  Redirect next hop port to the one in this range, rewrite parameter $3 to hookip:port [default: 12850-12899]
-      --dummystr <DUMMYSTR>    DIY a random endpoint stored in env UD_DUMMYENDPOINT every hop. can be used in hook scripts [default: ]
-      --loglevel <LOGLEVEL>    Log level  0:no 1:error 2:warn 3:info 4:debug [default: 2]
 ```
 #### Compatibility:
 Wireguard, OpenVPN, juicity, hysteria, tinyfecVPN, Cloudflare WARP.
